@@ -94,12 +94,12 @@ namespace PreprocessImage
         {
             this.colorSlider.Value = 0;
             this.lblDuration.Text = this.lblCurrent.Text = "00:00";
-            //this.btnPlay.BackgroundImage = global::Demo.Frames.Properties.Resources.play;
+            this.btnPlay.BackgroundImage = global::PreprocessImage.Properties.Resources.play;
         }
 
         public void Finish()
         {
-            //this.btnPlay.BackgroundImage = global::Demo.Frames.Properties.Resources.play;
+            this.btnPlay.BackgroundImage = global::PreprocessImage.Properties.Resources.play;
         }
 
         private void btnPlay_Click(object sender, EventArgs e)
@@ -108,8 +108,8 @@ namespace PreprocessImage
             {
                 _play = !_play;
                 PlayClickHandler(sender, e);
-                //this.btnPlay.BackgroundImage = _play ? global::Demo.Frames.Properties.Resources.pause : 
-                //    global::Demo.Frames.Properties.Resources.play;
+                this.btnPlay.BackgroundImage = _play ? global::PreprocessImage.Properties.Resources.pause :
+                    global::PreprocessImage.Properties.Resources.play;
                 this.lblDuration.Text = CalculateDuration(this._frames.Count);
             }
         }
