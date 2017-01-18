@@ -88,9 +88,9 @@ namespace PreprocessImage
 
                 this.controlPanel.UpdateControlPanel(_currentNumber);
                 if (_currentNumber == 0)
-                    CalcImageDiff(null, _frames[_currentNumber]);
+                    CalcImageDiff(null, _frames[_currentNumber], _currentNumber);
                 else
-                    CalcImageDiff(_frames[_currentNumber - 1], _frames[_currentNumber]);
+                    CalcImageDiff(_frames[_currentNumber - 1], _frames[_currentNumber], _currentNumber);
                 ShowSplineChart(_frames[_currentNumber], _currentNumber);
                 _currentNumber = ++_currentNumber;
                 if (_currentNumber == _frames.Count)
@@ -126,26 +126,33 @@ namespace PreprocessImage
                 this.richSplineChart1.Chart.ChartAreas["Default"].AxisX.Minimum = pointIndex - numberOfPointsAfterRemoval;
                 this.richSplineChart1.Chart.ChartAreas["Default"].AxisX.Maximum = this.richSplineChart1.Chart.ChartAreas["Default"].AxisX.Minimum + numberOfPointsInChart;
             }
-            this.richSplineChart1.Chart.SaveImage(string.Format("{0}\\SourceImage\\{1}_processed.png",System.Environment.CurrentDirectory, pointIndex), ChartImageFormat.Png);
+            this.richSplineChart1.Chart.SaveImage(string.Format("{0}\\ChartImages\\{1}_chart.png",System.Environment.CurrentDirectory, pointIndex), ChartImageFormat.Png);
             // Redraw chart
             this.richSplineChart1.Chart.Invalidate();
         }
 
-        private void CalcImageDiff(Frame preFrame, Frame currentFrame)
+        private void CalcImageDiff(Frame preFrame, Frame currentFrame, int currentIndex)
         {
-            if (preFrame != null)
+            try
             {
-                double diff = AlgorithmHelper.CalcDiff(preFrame.FileFullName, currentFrame.FileFullName);
-                currentFrame.ImageDiff = diff;
-                currentFrame.DiffList = new List<double>();
-                currentFrame.DiffList.AddRange(preFrame.DiffList);
-                currentFrame.DiffList.Add(diff);
+                if (preFrame != null)
+                {
+                    double diff = AlgorithmHelper.CalcImageDiff(preFrame.FileFullName, currentFrame.FileFullName,
+                        500, 600, string.Format("{0}\\ProcessedImages\\{1}_processed.png", System.Environment.CurrentDirectory, currentIndex));
+                    currentFrame.ImageDiff = diff;
+                    currentFrame.DiffList = new List<double>();
+                    currentFrame.DiffList.AddRange(preFrame.DiffList);
+                    currentFrame.DiffList.Add(diff);
+                }
+                else
+                {
+                    currentFrame.ImageDiff = 0;
+                    currentFrame.DiffList = new List<double>();
+                    currentFrame.DiffList.Add(0);
+                }
             }
-            else
+            catch (Exception e)
             {
-                currentFrame.ImageDiff = 0;
-                currentFrame.DiffList = new List<double>();
-                currentFrame.DiffList.Add(0);
             }
         }
 
