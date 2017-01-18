@@ -41,20 +41,23 @@
             // 
             this.lblCurrent.Location = new System.Drawing.Point(8, 5);
             this.lblCurrent.Name = "lblCurrent";
-            this.lblCurrent.Size = new System.Drawing.Size(35, 14);
+            this.lblCurrent.Size = new System.Drawing.Size(35, 15);
             this.lblCurrent.TabIndex = 8;
             this.lblCurrent.Text = "00:00";
             // 
             // lblDuration
             // 
+            this.lblDuration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDuration.Location = new System.Drawing.Point(432, 5);
             this.lblDuration.Name = "lblDuration";
-            this.lblDuration.Size = new System.Drawing.Size(35, 14);
+            this.lblDuration.Size = new System.Drawing.Size(35, 15);
             this.lblDuration.TabIndex = 9;
             this.lblDuration.Text = "00:00";
             // 
             // colorSlider
             // 
+            this.colorSlider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.colorSlider.BackColor = System.Drawing.Color.Transparent;
             this.colorSlider.BarInnerColor = System.Drawing.SystemColors.Control;
             this.colorSlider.BarOuterColor = System.Drawing.SystemColors.Control;
@@ -63,7 +66,7 @@
             this.colorSlider.LargeChange = ((uint)(5u));
             this.colorSlider.Location = new System.Drawing.Point(47, 3);
             this.colorSlider.Name = "colorSlider";
-            this.colorSlider.Size = new System.Drawing.Size(379, 16);
+            this.colorSlider.Size = new System.Drawing.Size(379, 17);
             this.colorSlider.SmallChange = ((uint)(1u));
             this.colorSlider.TabIndex = 4;
             this.colorSlider.ThumbInnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
@@ -77,54 +80,56 @@
             this.btnRewind.BackgroundImage = global::PreprocessImage.Properties.Resources.rewind;
             this.btnRewind.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnRewind.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRewind.Location = new System.Drawing.Point(170, 21);
+            this.btnRewind.Location = new System.Drawing.Point(170, 23);
             this.btnRewind.Name = "btnRewind";
-            this.btnRewind.Size = new System.Drawing.Size(35, 32);
+            this.btnRewind.Size = new System.Drawing.Size(35, 35);
             this.btnRewind.TabIndex = 3;
             this.btnRewind.UseVisualStyleBackColor = true;
             this.btnRewind.Click += new System.EventHandler(this.btnRewind_Click);
             // 
             // btnForword
             // 
-            this.btnForword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnForword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnForword.BackgroundImage = global::PreprocessImage.Properties.Resources.forward;
             this.btnForword.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnForword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnForword.Location = new System.Drawing.Point(252, 21);
+            this.btnForword.Location = new System.Drawing.Point(252, 23);
             this.btnForword.Name = "btnForword";
-            this.btnForword.Size = new System.Drawing.Size(35, 32);
+            this.btnForword.Size = new System.Drawing.Size(35, 35);
             this.btnForword.TabIndex = 2;
             this.btnForword.UseVisualStyleBackColor = true;
             this.btnForword.Click += new System.EventHandler(this.btnForword_Click);
             // 
             // btnStop
             // 
-            this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStop.BackgroundImage = global::PreprocessImage.Properties.Resources.pause;
             this.btnStop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStop.Location = new System.Drawing.Point(211, 21);
+            this.btnStop.Location = new System.Drawing.Point(211, 23);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(35, 32);
+            this.btnStop.Size = new System.Drawing.Size(35, 35);
             this.btnStop.TabIndex = 1;
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // btnPlay
             // 
+            this.btnPlay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnPlay.BackgroundImage = global::PreprocessImage.Properties.Resources.play;
             this.btnPlay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPlay.Location = new System.Drawing.Point(8, 21);
+            this.btnPlay.Location = new System.Drawing.Point(8, 23);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(35, 32);
+            this.btnPlay.Size = new System.Drawing.Size(35, 35);
             this.btnPlay.TabIndex = 0;
             this.btnPlay.UseVisualStyleBackColor = true;
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
             // ControlPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.lblDuration);
             this.Controls.Add(this.lblCurrent);
@@ -134,7 +139,7 @@
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnPlay);
             this.Name = "ControlPanel";
-            this.Size = new System.Drawing.Size(470, 56);
+            this.Size = new System.Drawing.Size(470, 61);
             this.Load += new System.EventHandler(this.ControlPanel_Load);
             this.ResumeLayout(false);
 
