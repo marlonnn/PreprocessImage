@@ -13,6 +13,10 @@ namespace PreprocessImage
 
         private string _folder;
 
+        public double ImageDiff { get; set; }
+
+        public List<double> DiffList;
+
         public string FileFullName
         {
             get
