@@ -23,6 +23,8 @@ namespace PreprocessImage
 
         private int _currentNumber;
 
+        private bool _start;
+
         public int CurrentNumber
         {
             get { return this._currentNumber; }
@@ -43,7 +45,7 @@ namespace PreprocessImage
             {
                 this._fps = value;
                 this.playTimer.Interval = 1000 / value;
-                this.controlPanel.FPS = value;
+                //this.controlPanel.FPS = value;
 
             }
         }
@@ -56,8 +58,11 @@ namespace PreprocessImage
             _frames = new List<Frame>();
             //Set initialize 5 FPS
             this.playTimer.Interval = 200;
-            this.controlPanel.PlayClickHandler += PlayClickHandler;
-            this.controlPanel.StopClickHandler += StopClickHandler;
+            _start = true;
+            this.progressBar1.Enabled = false;
+            this.startToolStripMenuItem.Enabled = false;
+            this.openToolStripMenuItem.Enabled = true;
+            this.progressBar1.Value = 0;
         }
 
         private void StopPlay()
@@ -65,19 +70,8 @@ namespace PreprocessImage
             this.playTimer.Enabled = false;
             this.pictureBox.Image = global::PreprocessImage.Properties.Resources.background;
             this._currentNumber = 0;
-        }
-
-        private void StopClickHandler(object sender, EventArgs e)
-        {
-            StopPlay();
-            this.controlPanel.Play = false;
-            this.controlPanel.StopControlPanel();
-
-        }
-
-        private void PlayClickHandler(object sender, EventArgs e)
-        {
-            this.playTimer.Enabled = this.controlPanel.Play;
+            this.startToolStripMenuItem.Enabled = false;
+            this.openToolStripMenuItem.Enabled = true;
         }
 
         private void PlayTimer_Tick(object sender, EventArgs e)
@@ -86,21 +80,25 @@ namespace PreprocessImage
             {
                 this.pictureBox.ImageLocation = _frames[_currentNumber].FileFullName;
 
-                this.controlPanel.UpdateControlPanel(_currentNumber);
+                //this.controlPanel.UpdateControlPanel(_currentNumber);
                 if (_currentNumber == 0)
                     CalcImageDiff(null, _frames[_currentNumber], _currentNumber);
                 else
                     CalcImageDiff(_frames[_currentNumber - 1], _frames[_currentNumber], _currentNumber);
                 ShowSplineChart(_frames[_currentNumber], _currentNumber);
+                UpdateProgressBar(_currentNumber);
                 _currentNumber = ++_currentNumber;
                 if (_currentNumber == _frames.Count)
                 {
-                    this._currentNumber = 0;
-                    this.playTimer.Enabled = false;
-                    this.controlPanel.Play = false;
-                    this.controlPanel.Finish();
+                    StopPlay();
                 }
             }
+        }
+
+        private void UpdateProgressBar(int value)
+        {
+
+            this.progressBar1.Value = value;
         }
 
         private void ShowSplineChart(Frame frame, int pointIndex)
@@ -137,8 +135,9 @@ namespace PreprocessImage
             {
                 if (preFrame != null)
                 {
-                    double diff = AlgorithmHelper.CalcImageDiff(preFrame.FileFullName, currentFrame.FileFullName,
-                        500, 600, string.Format("{0}\\ProcessedImages\\{1}_processed.png", System.Environment.CurrentDirectory, currentIndex));
+                    double diff = AlgorithmHelper.CalcDiff(preFrame.FileFullName, currentFrame.FileFullName);
+                    //double diff = AlgorithmHelper.CalcImageDiff(preFrame.FileFullName, currentFrame.FileFullName,
+                    //    500, 600, string.Format("{0}\\ProcessedImages\\{1}_processed.png", System.Environment.CurrentDirectory, currentIndex));
                     currentFrame.ImageDiff = diff;
                     currentFrame.DiffList = new List<double>();
                     currentFrame.DiffList.AddRange(preFrame.DiffList);
@@ -163,10 +162,9 @@ namespace PreprocessImage
                 ofd.Description = "请选择将要播放帧图的文件夹";
                 ofd.RootFolder = Environment.SpecialFolder.Desktop;
                 ofd.SelectedPath = System.Environment.CurrentDirectory + "\\Images";
-
-                _frames.Clear();
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
+                    _frames.Clear();
                     string fileFolder = ofd.SelectedPath;
                     DirectoryInfo folder = new DirectoryInfo(fileFolder);
                     try
@@ -183,10 +181,10 @@ namespace PreprocessImage
                             Frame frame = new Frame(info.FullName, fileFolder);
                             _frames.Add(frame);
                         }
-                        this.trackBar.Enabled = true;
-                        this.controlPanel.EnableSlider(true);
-                        this.controlPanel.InitializeControlPanel(_frames, _fps);
                         numberOfPointsInChart = this._frames.Count;
+                        this.lblFps.Text = this._fps.ToString();
+                        this.startToolStripMenuItem.Enabled = true;
+                        this.progressBar1.Maximum = this._frames.Count;
                     }
                     catch (Exception ee)
                     {
@@ -195,11 +193,19 @@ namespace PreprocessImage
             }
         }
 
-        private void TrackBar_ValueChanged(object sender, decimal value)
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.lblFps.Text = value.ToString();
-            this.FPS = (int)(value);
-            this.controlPanel.CalculateDuration();
+            _start = !_start;
+            ChangeStartToolStripMenuItem(_start);
+        }
+
+        private void ChangeStartToolStripMenuItem(bool start)
+        {
+            this.startToolStripMenuItem.Image = start ? 
+                global::PreprocessImage.Properties.Resources.Run : global::PreprocessImage.Properties.Resources.pause;
+            this.startToolStripMenuItem.Text = start ? "Start" : "Pause";
+            this.playTimer.Enabled = !start;
+            this.openToolStripMenuItem.Enabled = start;
         }
     }
 }

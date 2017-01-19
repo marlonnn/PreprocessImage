@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreprocessImage", "PreprocessImage\PreprocessImage.csproj", "{17C2CFB4-7BDC-42EA-AE87-AA891C3D9B2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplineChart", "SplineChart\SplineChart.csproj", "{0DCA6DF1-3954-475C-A36F-4E4523394070}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Summer.UI", "Summer.UI\Summer.UI.csproj", "{052319C6-E01F-4B28-969B-B9101878F67A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{0DCA6DF1-3954-475C-A36F-4E4523394070}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DCA6DF1-3954-475C-A36F-4E4523394070}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DCA6DF1-3954-475C-A36F-4E4523394070}.Release|Any CPU.Build.0 = Release|Any CPU
-		{052319C6-E01F-4B28-969B-B9101878F67A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{052319C6-E01F-4B28-969B-B9101878F67A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{052319C6-E01F-4B28-969B-B9101878F67A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{052319C6-E01F-4B28-969B-B9101878F67A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
