@@ -104,6 +104,7 @@
     <Content Include="Resources\background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\logo.ico" />
     <Content Include="Resources\open.png" />
     <Content Include="Resources\pause.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
