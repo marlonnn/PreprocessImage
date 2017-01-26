@@ -15,24 +15,25 @@ namespace PreprocessImage
     public partial class FramePlayer : Form
     {
         private Object thisLock = new Object();
-        private List<Frame> _frames;
+
+        private List<Frame> frames;
 
         private int numberOfPointsInChart = 300;
 
         private int numberOfPointsAfterRemoval = 100;
 
-        private int _currentNumber;
+        private int currentNumber;
 
-        private bool _start;
+        private bool start;
 
         public int CurrentNumber
         {
-            get { return this._currentNumber; }
+            get { return this.currentNumber; }
             set
             {
                 lock (thisLock)
                 {
-                    this._currentNumber = value;
+                    this.currentNumber = value;
                 }
             }
         }
@@ -55,52 +56,68 @@ namespace PreprocessImage
             InitializeComponent();
 
             _fps = 5;
-            _frames = new List<Frame>();
+            frames = new List<Frame>();
             //Set initialize 5 FPS
             this.playTimer.Interval = 200;
-            _start = true;
+            start = true;
             this.progressBar1.Enabled = false;
             this.startToolStripMenuItem.Enabled = false;
             this.openToolStripMenuItem.Enabled = true;
             this.progressBar1.Value = 0;
         }
 
+        /// <summary>
+        /// 停止播放
+        /// </summary>
         private void StopPlay()
         {
             this.playTimer.Enabled = false;
             this.pictureBox.Image = global::PreprocessImage.Properties.Resources.background;
-            this._currentNumber = 0;
+            this.currentNumber = 0;
             this.startToolStripMenuItem.Enabled = false;
             this.openToolStripMenuItem.Enabled = true;
         }
 
         private void PlayTimer_Tick(object sender, EventArgs e)
         {
-            if (this._frames != null && this._frames.Count > 0)
+            if (this.frames != null && this.frames.Count > 0)
             {
-                this.pictureBox.ImageLocation = _frames[_currentNumber].FileFullName;
+                this.pictureBox.ImageLocation = frames[currentNumber].FileFullName;
 
-                //this.controlPanel.UpdateControlPanel(_currentNumber);
-                if (_currentNumber == 0)
-                    CalcImageDiff(null, _frames[_currentNumber], _currentNumber);
+                //this.controlPanel.UpdateControlPanel(currentNumber);
+                if (currentNumber == 0)
+                {
+                    CalcImageDiff(null, frames[currentNumber], currentNumber);
+                }
                 else
-                    CalcImageDiff(_frames[_currentNumber - 1], _frames[_currentNumber], _currentNumber);
-                ShowSplineChart(_frames[_currentNumber], _currentNumber);
-                UpdateProgressBar(_currentNumber);
-                _currentNumber = ++_currentNumber;
-                if (_currentNumber == _frames.Count)
+                {
+                    CalcImageDiff(frames[currentNumber - 1], frames[currentNumber], currentNumber);
+                }
+                ShowSplineChart(frames[currentNumber], currentNumber);
+                UpdateProgressBar(currentNumber);
+                currentNumber = ++currentNumber;
+                if (currentNumber == frames.Count)
                 {
                     StopPlay();
                 }
             }
         }
 
+        /// <summary>
+        /// 更新进度条
+        /// </summary>
+        /// <param name="value"></param>
         private void UpdateProgressBar(int value)
         {
 
             this.progressBar1.Value = value;
         }
 
+        /// <summary>
+        /// 显示柱状图
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <param name="pointIndex"></param>
         private void ShowSplineChart(Frame frame, int pointIndex)
         {
             // adding new data points
@@ -129,15 +146,22 @@ namespace PreprocessImage
             this.richSplineChart1.Chart.Invalidate();
         }
 
+        /// <summary>
+        /// 计算差值
+        /// </summary>
+        /// <param name="preFrame">前一图片</param>
+        /// <param name="currentFrame">当前图片</param>
+        /// <param name="currentIndex">当前图片位置</param>
         private void CalcImageDiff(Frame preFrame, Frame currentFrame, int currentIndex)
         {
             try
             {
                 if (preFrame != null)
                 {
-                    double diff = AlgorithmHelper.CalcDiff(preFrame.FileFullName, currentFrame.FileFullName);
-                    //double diff = AlgorithmHelper.CalcImageDiff(preFrame.FileFullName, currentFrame.FileFullName,
-                    //    500, 600, string.Format("{0}\\ProcessedImages\\{1}_processed.png", System.Environment.CurrentDirectory, currentIndex));
+                    //Simulate need
+                    //double diff = AlgorithmHelper.CalcDiff(preFrame.FileFullName, currentFrame.FileFullName);
+                    double diff = AlgorithmHelper.CalcImageDiff(preFrame.FileFullName, currentFrame.FileFullName,
+                        500, 600, string.Format("{0}\\ProcessedImages\\{1}_processed.png", System.Environment.CurrentDirectory, currentIndex));
                     currentFrame.ImageDiff = diff;
                     currentFrame.DiffList = new List<double>();
                     currentFrame.DiffList.AddRange(preFrame.DiffList);
@@ -164,7 +188,7 @@ namespace PreprocessImage
                 ofd.SelectedPath = System.Environment.CurrentDirectory + "\\Images";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    _frames.Clear();
+                    frames.Clear();
                     string fileFolder = ofd.SelectedPath;
                     DirectoryInfo folder = new DirectoryInfo(fileFolder);
                     try
@@ -179,12 +203,12 @@ namespace PreprocessImage
                         {
                             var v = Path.GetFileNameWithoutExtension(info.Name);
                             Frame frame = new Frame(info.FullName, fileFolder);
-                            _frames.Add(frame);
+                            frames.Add(frame);
                         }
-                        numberOfPointsInChart = this._frames.Count;
+                        numberOfPointsInChart = this.frames.Count;
                         this.lblFps.Text = this._fps.ToString();
                         this.startToolStripMenuItem.Enabled = true;
-                        this.progressBar1.Maximum = this._frames.Count;
+                        this.progressBar1.Maximum = this.frames.Count;
                     }
                     catch (Exception ee)
                     {
@@ -195,8 +219,8 @@ namespace PreprocessImage
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _start = !_start;
-            ChangeStartToolStripMenuItem(_start);
+            start = !start;
+            ChangeStartToolStripMenuItem(start);
         }
 
         private void ChangeStartToolStripMenuItem(bool start)
